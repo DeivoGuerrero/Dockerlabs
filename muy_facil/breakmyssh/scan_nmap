@@ -1,0 +1,5 @@
+# Nmap 7.95 scan initiated Thu Mar 20 13:04:52 2025 as: /usr/lib/nmap/nmap --privileged -sS --min-rate 5000 -p- -vvv -Pn -n -oG scan_nmap 172.17.0.2
+# Ports scanned: TCP(65535;1-65535) UDP(0;) SCTP(0;) PROTOCOLS(0;)
+Host: 172.17.0.2 ()	Status: Up
+Host: 172.17.0.2 ()	Ports: 22/open/tcp//ssh///	Ignored State: closed (65534)
+# Nmap done at Thu Mar 20 13:04:53 2025 -- 1 IP address (1 host up) scanned in 0.41 seconds
