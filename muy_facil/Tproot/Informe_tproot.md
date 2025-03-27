@@ -1,10 +1,10 @@
-### Informe de maquina *"Tproot"*
+### Informe de máquina *"Tproot"*
 
-![](./screenshots/01_machine.png)
+![Imagen máquina](./screenshots/01_machine.png)
 
 Inicializamos nuestra máquina ejecutando el script de `auto_deploy`
 
-![](./screenshots/03_run_machine.png)
+![Inicialización máquina](./screenshots/03_run_machine.png)
 
 Realizamos un escaneo de puertos con la herramienta `nmap`
 
@@ -30,7 +30,7 @@ nmap -sS --min-rate 5000 -p- -vvv -Pn -n 172.17.0.2 -oG nmap
 
 `-oG nmap` → Guarda la salida en formato grepable (fácil de procesar con scripts) en un archivo llamado nmap.
 
-![](./screenshots/04_scan_nmap.png)
+![Escaneo de puertos](./screenshots/04_scan_nmap.png)
 
 Encontramos que la maquina tiene abiertos los puertos 21 y 80, vamos a escanear más a detalle estos puertos
 
@@ -50,11 +50,11 @@ nmap -p21,80 -sC -sV -O 172.17.0.2
 
 `172.17.0.2` → Especifica la dirección IP del objetivo a escanear.
 
-![](./screenshots/04_scan_ports_21_80.png)
+![Detalle puertos 21 y 80](./screenshots/04_scan_ports_21_80.png)
 
 Encontramos que el servicio ftp posee una versión `vsftpd 2.3.4`, antes de intentar un ataque a este servicio, revisemos un poco la el servicio web.
 
-![](./screenshots/05_web_page.png)
+![Página web](./screenshots/05_web_page.png)
 
 No encontramos mucha información, solo una pagina de inicio de servidor Apache.
 Realizamos un ataque de fuzziin por si encontramos más archivos.
@@ -71,19 +71,19 @@ ffuf -u http://172.17.0.2/FUZZ -w /usr/share/dirb/wordlists/common.txt -e .php,.
 
 `-e .php,.html,.txt` Le especificamos que buscamos archivos con exteciones .php o .html o .txt
 
-![](./screenshots/06_fuzzing_page.png)
+![Ataque de fuzzing](./screenshots/06_fuzzing_page.png)
 
 No encontramos mucho así que procedemos a buscar un explot de la version del servicio de ftp. Abrimos Metasploit y ejecutamos el comando `search vsftpd`
 
-![](./screenshots/07_search_exploit_vsftpd.png)
+![Busqueda de exploit a ftp](./screenshots/07_search_exploit_vsftpd.png)
 
 En efecto encontramos un exploit de backdoor, lo seleccionamos con `use 1` podemos ver las configuraciones del exploit con `show options`. Para este caso solo necesitamos configurar la ip victima, la definimos con `set RHOST 172.17.0.2`
 
-![](./screenshots/08_configure_exploit.png)
+![Configuración exploit](./screenshots/08_configure_exploit.png)
 
 Una vez configurado el exploit, lo ejecutamos con el comando `run`.
 
-![](./screenshots/09_login_as_root.png)
+![Logueo como root](./screenshots/09_login_as_root.png)
 
 Observamos que nos habilita una consola donde si ejecutamos el comando `whoami` nos informa que estamos logueados como usuarios `root`
 
