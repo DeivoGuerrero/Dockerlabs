@@ -9,7 +9,7 @@ Vamos a realizar la maquina "Psycho", como siempre vamos a empezar asignando per
 
 Realizamos un testeo de conexión con el comando `ping`.
 
-![Test de coneción](./screenshots/04_test_conexion.png)
+![Test de conexión](./screenshots/04_test_conexion.png)
 
 Ahora realizamos un escaneo de puertos abiertos con la herramienta `nmap`, el comando usado fue:
 
