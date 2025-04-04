@@ -1,8 +1,8 @@
 ### Informe de máquina *"NodeClib"*
 
-![Máquina Psycho](./screenshots/01_maquina.png)
+![Máquina NodeClimb](./screenshots/01_maquina.png)
 
-Vamos a realizar la maquina "NodeClimb", como siempre vamos a empezar asignando permisos de ejecución al archivo `auto_deploy.sh` eh inicializamos la maquina con `sudo ./autodeploy ` `psycho.tar`
+Vamos a realizar la maquina "NodeClimb", como siempre vamos a empezar asignando permisos de ejecución al archivo `auto_deploy.sh` eh inicializamos la maquina con `sudo ./autodeploy ` `nodeclimb.tar`
 
 ![Permisos ejecución deploy](./screenshots/02_permisos_deploy.png)
 ![Inicialización máquina](./screenshots/03_inicio_maquina.png)
