@@ -32,12 +32,12 @@ nmap -sS --min-rate 5000 -p- -vvv -Pn -n 172.17.0.2 -oG nmap
 Encontramos los puertos `22` y `80` abiertos, procedemos a realizar un escaneo más detallada de estos.
 
 ```bash
-nmap -p21,22 -sC -sV -O 172.17.0.2
+nmap -p22,80 -sC -sV -O 172.17.0.2
 ```
 
 - `nmap` → Ejecuta la herramienta de escaneo de red Nmap.
 
-- `-p21,22` → Especifica los puertos que queremos escanear. En este caso 21 y 22.
+- `-p22,80` → Especifica los puertos que queremos escanear. En este caso 22 y 80.
 
 - `-sC` → Ejecuta scripts de detección predeterminados
 
