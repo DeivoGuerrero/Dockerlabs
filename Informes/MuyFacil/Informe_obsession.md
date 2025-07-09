@@ -1,14 +1,14 @@
 ### Informe de maquina *"Obsession"*
 
-![Imágen máquina](./screenshots/01_machine.png)
+![Imágen máquina](../../data/muy_facil/obsession/screenshots/01_machine.png)
 
 Empezamos la maquina asignado permisos de ejecución al archivo `auto_deploy.sh`
 
-![Permisos de ejecución](./screenshots/02_permisos_auto_deploy.png)
+![Permisos de ejecución](../../data/muy_facil/obsession/screenshots/02_permisos_auto_deploy.png)
 
 Inicializamos nuestra máquina ejecutando el script de `auto_deploy.sh`
 
-![Inicialización de máquina](./screenshots/03_inicializamos_maquina.png)
+![Inicialización de máquina](../../data/muy_facil/obsession/screenshots/03_inicializamos_maquina.png)
 
 Realizamos un escaneo de puertos con la herramienta `nmap`
 
@@ -34,7 +34,7 @@ nmap -sS --min-rate 5000 -p- -vvv -Pn -n 172.17.0.2 -oG nmap
 
 `-oG nmap` → Guarda la salida en formato grepable (fácil de procesar con scripts) en un archivo llamado nmap.
 
-![Escaneo de puertos](./screenshots/04_scan_nmap.png)
+![Escaneo de puertos](../../data/muy_facil/obsession/screenshots/04_scan_nmap.png)
 
 Encontramos que la maquina tiene abiertos los puertos 21 y 80, vamos a escanear más a detalle estos puertos
 
@@ -54,18 +54,18 @@ nmap -p21,22,80 -sC -sV -O 172.17.0.2
 
 `172.17.0.2` → Especifica la dirección IP del objetivo a escanear.
 
-![Detalle puertos 21, 22 y 80](./screenshots/05_scan_puertos_21_22_80.png)
+![Detalle puertos 21, 22 y 80](../../data/muy_facil/obsession/screenshots/05_scan_puertos_21_22_80.png)
 
 Para empezar podemos revisar que encontramos en su servidor web.
 
-![Página web](./screenshots/06_web_page.png)
-![Código fuente página web](./screenshots/07_codigo_fuente_pagina.png)
+![Página web](../../data/muy_facil/obsession/screenshots/06_web_page.png)
+![Código fuente página web](../../data/muy_facil/obsession/screenshots/07_codigo_fuente_pagina.png)
 
 Encontramos un comentario que nos da la pista que siempre usa el mismo usuario para todos sus servicios.
 
 Avanzamos con un ataque de fuzzing para ver si encontramos más información.
 
-![Fuzzing](./screenshots/08_fuzzing_page.png)
+![Fuzzing](../../data/muy_facil/obsession/screenshots/08_fuzzing_page.png)
 
 Encontramos dos directorios ocultos "backup" y "important", vamos a consultarlos para ver si encontramos más información.
 
@@ -81,7 +81,7 @@ ffuf -u http://172.17.0.2/FUZZ -w /usr/share/dirb/wordlists/common.txt -e .php,.
 
 `-e .php,.html,.txt` Le especificamos que buscamos archivos con exteciones .php o .html o .txt
 
-![Usuario víctima](./screenshots/09_find_username.png)
+![Usuario víctima](../../data/muy_facil/obsession/screenshots/09_find_username.png)
 
 Precisamente en el directorio "backup" encontramos un archivo llamado "backup.txt", en este encontramos que el usuario es: `russoski`
 
@@ -101,25 +101,25 @@ hydra -l russoski -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2 -t 10
 
 `-t 10` -> Cantidad de hilos (threads) que se ejecutarán en paralelo.
 
-![Contraseña](./screenshots/10_fuerzabruta_passwd.png)
+![Contraseña](../../data/muy_facil/obsession/screenshots/10_fuerzabruta_passwd.png)
 
 Intentamos realizar acceso al servidor.
 
-![Acceso a servidor como russoski](./screenshots/11_acceso_server.png)
+![Acceso a servidor como russoski](../../data/muy_facil/obsession/screenshots/11_acceso_server.png)
 
 Listamos los permisos sudo que posee el usuario.
 
-![Permisos sudo](./screenshots/12_permisos_sudo.png)
+![Permisos sudo](../../data/muy_facil/obsession/screenshots/12_permisos_sudo.png)
 
 Identificamos que podemos usar el binario `vim` con permisos sudo. Buscaremos como obtener una shell con altos privilegios.
 
 Nos apoyamos de la página [GTFOBins](https://gtfobins.github.io/), buscamos como obtener una shell con `vim`
 
-![Buscar código](./screenshots/13_find_exploit_shell.png)
+![Buscar código](../../data/muy_facil/obsession/screenshots/13_find_exploit_shell.png)
 
 Ejecutamos el código con permisos `sudo`, tambien podemos elegir entre una shell `sh` o una `bash` como lo hice en mi caso.
 
-![root](./screenshots/14_login_as_root.png)
+![root](../../data/muy_facil/obsession/screenshots/14_login_as_root.png)
 
 ---
 

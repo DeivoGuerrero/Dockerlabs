@@ -1,23 +1,23 @@
 ### Informe de maquina *"Trust"*
 
-![trust](./Screenshots/01_machine.png)
+![trust](../../data/muy_facil/trust/Screenshots/01_machine.png)
 
 Primero empezamos dandole permisos de ejecución al archivo .sh
 
-![Permisos a sh](./Screenshots/02_permisos_ejecucion.png)
+![Permisos a sh](../../data/muy_facil/trust/Screenshots/02_permisos_ejecucion.png)
 
 Ahora inicializamos la el laboratorio
 
-![Laboratorio](./Screenshots/03_inicializacion_maquina.png)
+![Laboratorio](../../data/muy_facil/trust/Screenshots/03_inicializacion_maquina.png)
 
 Abrimos una nueva pestaña o ventana de Terminal y realizamos un ping a la maquina y realizamos un escaneo de puertos con nmap.
 
-![Escaneo nmap](./Screenshots/04_escaneo_nmap.png)
+![Escaneo nmap](../../data/muy_facil/trust/Screenshots/04_escaneo_nmap.png)
 
 Se identifican abiertos los puertos 22 de servicio ssh y el puerto 80 del servicio http.
 Colocamos la dirección IP en un navegador para seguir investigando.
 
-![Pagina por defecto Apache](./Screenshots/05_apache_conf.png)
+![Pagina por defecto Apache](../../data/muy_facil/trust/Screenshots/05_apache_conf.png)
 
 Ahora podemos buscar rutas ocultas dentro del servidor web, para ello usamos la herramienta ffuf.
 
@@ -31,15 +31,15 @@ ffuf -u http://172.18.0.2/FUZZ -w /usr/share/dirb/wordlists/common.txt -e .php,.
 - -w /usr/share/dirb/wordlists/common.txt → Define la wordlist a usar.
 - -e .php,.html,.txt → Extensiones de archivo a buscar.
 
-![fuzz](./Screenshots/07_fuzzing.png)
+![fuzz](../../data/muy_facil/trust/Screenshots/07_fuzzing.png)
 
 Podemos observar que encontramos una página llamada secret.php, ingresemos la ruta al navegador.
 
-![secret](./Screenshots/08_secret-php.png)
+![secret](../../data/muy_facil/trust/Screenshots/08_secret-php.png)
 
 De momento conseguimos el nombre de un posible usuario "mario", revisemos el código fuente para encontrar más detalles.
 
-![cod_fuente_secret](./Screenshots/09_codigo_fuente_secret.png)
+![cod_fuente_secret](../../data/muy_facil/trust/Screenshots/09_codigo_fuente_secret.png)
 
 No encontramos muchos más detalles, intentaremos si podemos ingresar con el usuario "mario" con fuerza bruta.
 
@@ -71,7 +71,7 @@ hydra -l mario -P /usr/share/wordlists/rockyou.txt ssh://172.18.0.2 -t 10
 - Guardar el resultado en un archivo:
     - -o resultado.txt → Guarda el resultado en un archivo.
 
-![password](./Screenshots/10_crack_passwd.png)
+![password](../../data/muy_facil/trust/Screenshots/10_crack_passwd.png)
 
 Se ha detectado que la contraseña es "chocolate"
 
@@ -82,13 +82,13 @@ Vemos que podemos acceder y listamos que comandos podemos usar como sudo.
 sudo -l
 ```
 
-![acceso y permisos con sudo](./Screenshots/11_acceso_permisos_sudo.png)
+![acceso y permisos con sudo](../../data/muy_facil/trust/Screenshots/11_acceso_permisos_sudo.png)
 
 Vemos que podemos usar el binario /usr/bin/vim, podemos apoyarnos de la página (https://gtfobins.github.io/) para encontrar como aprovechar este binario y vulnerar la seguridad.
 
-![GTFOBins](./Screenshots/12_GTFOBins1.png)
+![GTFOBins](../../data/muy_facil/trust/Screenshots/12_GTFOBins1.png)
 
-![GTFOBins_Shell_vim](./Screenshots/13_shell_vim.png)
+![GTFOBins_Shell_vim](../../data/muy_facil/trust/Screenshots/13_shell_vim.png)
 
 Vamos a usar la primera opción que nos ofrece para obtener una Shell con el comando:
 
@@ -96,7 +96,7 @@ Vamos a usar la primera opción que nos ofrece para obtener una Shell con el com
 sudo vim -c ':!/bin/sh'
 ```
 
-![root](./Screenshots/14_root.png)
+![root](../../data/muy_facil/trust/Screenshots/14_root.png)
 
 ---
 
