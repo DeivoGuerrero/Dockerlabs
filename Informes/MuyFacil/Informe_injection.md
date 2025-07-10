@@ -4,7 +4,7 @@
 
 Una vez descarguemos la maquina obtenemos un archivo .zip, que descomprimiremos, en Termina nos ubicaremos en este directorio, encontraremos un archivo .sh y un archivo .tar
 
-Primero le asignameros permisos de ejecución al archivo .sh con el siguiente comando:
+Primero le asignamos permisos de ejecución al archivo .sh con el siguiente comando:
 ```bash
 sudo chmod +x auto_deply.sh
 ```
@@ -47,11 +47,11 @@ Empezaremos por revisar que el servicio http colocando la dirección IP en un na
 
 ![Escaneo de puertos con nmap](../../data/muy_facil/injection/screenshots/vulnerable.png)
 
-Encontramos una página llamada "index.php" es una pagina de login.
+Encontramos una página llamada "index.php" es una página de login.
 
-Colocando una comilla sencilla (en algunos casos puede ser con comillas dobles, todo depende de la lógica con la que se halla programado la pagina web) identificamos un error SQL syntax.
+Colocando una comilla sencilla (en algunos casos puede ser con comillas dobles, todo depende de la lógica con la que se halla programado la página web) identificamos un error SQL syntax.
 
-Además tambien podemos visualizar que usa una base de datos MariaDB
+Además, también podemos visualizar que usa una base de datos MariaDB
 
 Podemos intentar hacer una Inyección SQL, ingresando en los campos User y Password con alguno de estos ejemplos:
 
@@ -67,17 +67,17 @@ Al hacer la inyección SQL nos permite saltarnos el chequeo de credenciales y ac
 
 ![Acceso a web](../../data/muy_facil/injection/screenshots/credentials.png)
 
-Una vez dentro de la web, podemos identificar que un posible usuario del servidor puede llamarse dylan y nos muestra un mensaje con la posible contraseña del mismo.
+Una vez dentro de la web, podemos identificar que un posible usuario del servidor puede llamarse dylan y nos muestra un mensaje con la posible contraseña de este.
 
-Intentamos hacer una conexión ssh al servidor usando el usuario dylan y la contrasela encontrada.
+Intentamos hacer una conexión ssh al servidor usando el usuario dylan y la contraseña encontrada.
 
 ![Acceso al servidor por ssh](../../data/muy_facil/injection/screenshots/login.png)
 
-Realizamos un listado de privilegios del usaurio, primero con el comando:
+Realizamos un listado de privilegios del usuario, primero con el comando:
 ```
 sudo -l
 ```
-Nos retorna : "-bash: sudo: command not found" es decir que el comando sudo no se encuentra instalado en PATH del sistema.
+Nos retorna: "-bash: sudo: command not found" es decir que el comando sudo no se encuentra instalado en PATH del sistema.
 
 Vamos a buscar archivos en todo el sistema con permisos SUID o GUID
 ```
@@ -91,7 +91,7 @@ GUID (g+s): Si un archivo ejecutable tiene este bit, se ejecutará con los permi
 
 ![Acceso al servidor por ssh](../../data/muy_facil/injection/screenshots/root.png)
 
-Entre todos estos binarios haremos uso del binario /usr/bin/env porque nos permite hacer la ejecución de otro binario como /bin/bash y con el flag -p le decimo que lo ejecute manteniendo permisos SUID o GUID, como se puede vizualizar lo ejecutamos como usuario root.
+Entre todos estos binarios haremos uso del binario /usr/bin/env porque nos permite hacer la ejecución de otro binario como /bin/bash y con el flag -p le decimos que lo ejecute manteniendo permisos SUID o GUID, como se puede visualizar lo ejecutamos como usuario root.
 
 ---
 

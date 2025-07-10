@@ -2,11 +2,11 @@
 
 ![trust](../../data/muy_facil/trust/Screenshots/01_machine.png)
 
-Primero empezamos dandole permisos de ejecución al archivo .sh
+Primero empezamos dando permisos de ejecución al archivo .sh
 
 ![Permisos a sh](../../data/muy_facil/trust/Screenshots/02_permisos_ejecucion.png)
 
-Ahora inicializamos la el laboratorio
+Ahora inicializamos el laboratorio
 
 ![Laboratorio](../../data/muy_facil/trust/Screenshots/03_inicializacion_maquina.png)
 
@@ -45,13 +45,13 @@ No encontramos muchos más detalles, intentaremos si podemos ingresar con el usu
 
 Podemos hacer uso de la herramienta hydra y el worldlist "rockyou".
 
-En mi caso al ser una maquina nueva este worldlist esta comprimido como rockyou.txt.gz asi que usaremos el siguiente comando para descomprimirlo.
+En mi caso al ser una maquina nueva este worldlist esta comprimido como rockyou.txt.gz así que usaremos el siguiente comando para descomprimirlo.
 
 ```bash
 sudo gunzip /usr/share/wordlists/rockyou.txt.gz
 ```
 
-Ahora podemos usar el comando hydra sin problema de la siguinete forma:
+Ahora podemos usar el comando hydra sin problema de la siguiente forma:
 
 ```bash
 hydra -l mario -P /usr/share/wordlists/rockyou.txt ssh://172.18.0.2 -t 10

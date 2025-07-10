@@ -52,11 +52,11 @@ nmap -p21,80 -sC -sV -O 172.17.0.2
 
 ![Detalle puertos 21 y 80](../../data/muy_facil/Tproot/screenshots/04_scan_ports_21_80.png)
 
-Encontramos que el servicio ftp posee una versión `vsftpd 2.3.4`, antes de intentar un ataque a este servicio, revisemos un poco la el servicio web.
+Encontramos que el servicio ftp posee una versión `vsftpd 2.3.4`, antes de intentar un ataque a este servicio, revisemos un poco el servicio web.
 
 ![Página web](../../data/muy_facil/Tproot/screenshots/05_web_page.png)
 
-No encontramos mucha información, solo una pagina de inicio de servidor Apache.
+No encontramos mucha información, solo una página de inicio de servidor Apache.
 Realizamos un ataque de fuzziin por si encontramos más archivos.
 
 ```bash
@@ -69,15 +69,15 @@ ffuf -u http://172.17.0.2/FUZZ -w /usr/share/dirb/wordlists/common.txt -e .php,.
 
 `-w /usr/share/dirb/wordlists/common.txt` Definimos el diccionario con el cual hacer el fuzzing.
 
-`-e .php,.html,.txt` Le especificamos que buscamos archivos con exteciones .php o .html o .txt
+`-e .php,.html,.txt` Le especificamos que buscamos archivos con extensiones .php o .html o .txt
 
 ![Ataque de fuzzing](../../data/muy_facil/Tproot/screenshots/06_fuzzing_page.png)
 
-No encontramos mucho así que procedemos a buscar un explot de la version del servicio de ftp. Abrimos Metasploit y ejecutamos el comando `search vsftpd`
+No encontramos mucho así que procedemos a buscar un explot de la versión del servicio de ftp. Abrimos Metasploit y ejecutamos el comando `search vsftpd`
 
 ![Busqueda de exploit a ftp](../../data/muy_facil/Tproot/screenshots/07_search_exploit_vsftpd.png)
 
-En efecto encontramos un exploit de backdoor, lo seleccionamos con `use 1` podemos ver las configuraciones del exploit con `show options`. Para este caso solo necesitamos configurar la ip victima, la definimos con `set RHOST 172.17.0.2`
+En efecto encontramos un exploit de backdoor, lo seleccionamos con `use 1` podemos ver las configuraciones del exploit con `show options`. Para este caso solo necesitamos configurar la ip víctima, la definimos con `set RHOST 172.17.0.2`
 
 ![Configuración exploit](../../data/muy_facil/Tproot/screenshots/08_configure_exploit.png)
 

@@ -1,8 +1,8 @@
-### Informe de maquina *"breakmyssh"* ###
+### Informe de maquina *"breakmyssh"* 
 
 ![breakmyssh](../../data/muy_facil/breakmyssh/screenshots/machine.png)
 
-Una vez descargada la maquina y descomprimido el archivo, empezamos por asignar permisos de ejecución al archivo `auto_deploy.sh` e inicializamos la maquina.
+Una vez descargada la maquina y descomprimido el archivo, empezamos por asignar permisos de ejecución al archivo `auto_deploy.sh` e inicializamos la máquina.
 
 ![permisos ejecución auto_deploy.sh](../../data/muy_facil/breakmyssh/screenshots/01_descomprimir_archivos.png)
 
@@ -22,7 +22,7 @@ Nos encontramos que tiene activo el servicio de OpenSSH 7.7, vamos a buscar en g
 
 Indagando un poco encontramos que esa versión de OpenSSH es vulnerable a una enumeración de usuarios.
 
-Ahora buscaremos algun sploit similar que podamos usar en la herramieta de Metasploit con el comando `msfconsole`
+Ahora buscaremos algún sploit similar que podamos usar en la herramienta de Metasploit con el comando `msfconsole`
 
 ![msfconsole](../../data/muy_facil/breakmyssh/screenshots/05_msfconsole.png)
 
@@ -32,19 +32,19 @@ Buscamos exploits para openssh con el comando `search openssh` en el resultado e
 
 Le decimos a la herramienta que queremos usar ese exploit con el comando `use 3`, y usamos el comando `show optios` para visualizar los parámetros que necesita.
 
-Definimos nuestra maquina victima con el comando `set RHOSTS ip` (remplazando ip por la *ip* de la victima), el puerto esta definido por defelcto el 22 por lo tanto no tenemos necesidad de definirlo.
+Definimos nuestra maquina victima con el comando `set RHOSTS ip` (remplazando ip por la *ip* de la víctima), el puerto está definido por defecto el 22 por lo tanto no tenemos necesidad de definirlo.
 
 ![set_ip](../../data/muy_facil/breakmyssh/screenshots/07_set_host.png)
 
-Adicionalmente definiremos un listado de usuarios para la detección usando el comando `set USER_FILE wordlist` (remplazando *worldlist* por la ruta del archivo con la lista de usuarios a comprovar). Para el caso se uso la ruta */usr/share/wordlists/metasploit/namelist.txt*
+Adicionalmente definiremos un listado de usuarios para la detección usando el comando `set USER_FILE wordlist` (remplazando *worldlist* por la ruta del archivo con la lista de usuarios a comprobar). Para el caso se usó la ruta */usr/share/wordlists/metasploit/namelist.txt*
 
 ![set_userlist](../../data/muy_facil/breakmyssh/screenshots/07_set_userlist.png)
 
-Una vez definidos los parametros ejecutamos el comando `run` para ejecutar el exploit.
+Una vez definidos los parámetros ejecutamos el comando `run` para ejecutar el exploit.
 
 ![exploit](../../data/muy_facil/breakmyssh/screenshots/07_run_exploit.png)
 
-Se ha podido detectar que existen los usuario root, backup, games, irl, mail, news, proxy.
+Se ha podido detectar que existen los usuarios root, backup, games, irl, mail, news, proxy.
 
 Ahora podemos ejecutar acceso por ssh con cada uno de los usuarios ejecutando el siguiente comando:
 

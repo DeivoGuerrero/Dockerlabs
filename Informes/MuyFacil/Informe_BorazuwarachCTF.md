@@ -2,7 +2,7 @@
 
 ![](./screenshots/01_machine.png)
 
-Iniciamos nuestra maquina como es costumbre ya asignando los permisos de ejecución al archivo `auto_deploy.sh` y ejecutando este escrit junto con el archivo de la maquina .tar
+Iniciamos nuestra maquina como es costumbre ya asignando los permisos de ejecución al archivo `auto_deploy.sh` y ejecutando este scrit junto con el archivo de la maquina .tar
 
 ```bash
 sudo auto_deply.sh borazuwarachcft.tar
@@ -24,11 +24,11 @@ Pero antes de buscar vulnerabilidades, investiguemos un poco que nos trae de ini
 ![página web](../../data/muy_facil/BorazuwarahCTF/screenshots/05_pagina_web.png)
 ![código fuente página web](../../data/muy_facil/BorazuwarahCTF/screenshots/06_codigofuente_pagina.png)
 
-Encontramos una imágen de 'Kinder Sorpresa', sin mucha información de  momento.
+Encontramos una imagen de 'Kinder Sorpresa', sin mucha información de  momento.
 
-Procedemos a descargar la imágen con el comando `wget` y la ruta de la imágen.
+Procedemos a descargar la imagen con el comando `wget` y la ruta de la imagen.
 
-![descarga de imágen](../../data/muy_facil/BorazuwarahCTF/screenshots/09_download_image.png)
+![descarga de imagen](../../data/muy_facil/BorazuwarahCTF/screenshots/09_download_image.png)
 
 Revisamos los metadatos de la imagen con el comando `exiftool` y la imagen
 
@@ -48,6 +48,6 @@ En efecto se pudo encontrar la contraseña con fuerza bruta correspondiente a: `
 
 ![acceso a servidor](../../data/muy_facil/BorazuwarahCTF/screenshots/12_access.png)
 
-Verificamos que podemos acceder y observamos que podemos hacer uso de `/bin/bash` con permisos `sudo` permitiendonos ser usuario `root`
+Verificamos que podemos acceder y observamos que podemos hacer uso de `/bin/bash` con permisos `sudo` permitiéndonos ser usuario `root`
 
 ![escalada de privilegios](../../data/muy_facil/BorazuwarahCTF/screenshots/13_root.png)

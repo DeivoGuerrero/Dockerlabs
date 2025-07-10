@@ -12,7 +12,7 @@ Realizamos un escaneo de puertos abiertos con el comando `nmap`
 
 ![escaneo nmap](../../data/muy_facil/FirstHacking/screenshots/02_nmap_scan1.png)
 
-Se identifíca solo el puerto 21 abierto correspondiente a un servicio ftp.
+Se identifica solo el puerto 21 abierto correspondiente a un servicio ftp.
 
 ![escaneo puerto 21](../../data/muy_facil/FirstHacking/screenshots/04_scan_p21.png)
 
@@ -20,7 +20,7 @@ Se identifica que el servicio ftp tiene una versión `vsftpd 2.3.4`
 
 ![msfconsole](../../data/muy_facil/FirstHacking/screenshots/05_msfconsole.png)
 
-Realizamos una busqueda de vulnerabilidades a esa versión del servicio.
+Realizamos una búsqueda de vulnerabilidades a esa versión del servicio.
 
 ![buscar vulnerabilidad](../../data/muy_facil/FirstHacking/screenshots/05_search_vulnerability.png)
 
@@ -32,15 +32,15 @@ Con el comando `show options` podemos observar que configuraciones podemos hacer
 
 ![opciones exploit](../../data/muy_facil/FirstHacking/screenshots/06_show_options.png)
 
-Observamos que el puerto esta definido por defecto al puerto 21, por lo tanto no tenemos que configurarlo.
+Observamos que el puerto está definido por defecto al puerto 21, por lo tanto, no tenemos que configurarlo.
 
-Pero si debemos definir la IP de la victima con el comando `set RHOSTS ip` ip correspondiendo a: `172.17.0.2`
+Pero si debemos definir la IP de la víctima con el comando `set RHOSTS ip` ip correspondiendo a: `172.17.0.2`
 
 ![vulnerabilidad](../../data/muy_facil/FirstHacking/screenshots/06_permisos_deploy.png)
 
 Una vez configurado el exploit, lo ejecutamos con el comando `run`.
 
-Ejecutando el comando `whoami` podemos obaservar que nos ha iniciado una terminal de session como `root`
+Ejecutando el comando `whoami` podemos observar que nos ha iniciado una terminal de sesión como `root`
 
 ![root](../../data/muy_facil/FirstHacking/screenshots/07_backdoor_root.png)
 

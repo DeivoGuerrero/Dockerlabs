@@ -56,7 +56,7 @@ nmap -p21,22,80 -sC -sV -O 172.17.0.2
 
 ![Detalle puertos 21, 22 y 80](../../data/muy_facil/obsession/screenshots/05_scan_puertos_21_22_80.png)
 
-Para empezar podemos revisar que encontramos en su servidor web.
+Para empezar, podemos revisar que encontramos en su servidor web.
 
 ![Página web](../../data/muy_facil/obsession/screenshots/06_web_page.png)
 ![Código fuente página web](../../data/muy_facil/obsession/screenshots/07_codigo_fuente_pagina.png)
@@ -79,7 +79,7 @@ ffuf -u http://172.17.0.2/FUZZ -w /usr/share/dirb/wordlists/common.txt -e .php,.
 
 `-w /usr/share/dirb/wordlists/common.txt` Definimos el diccionario con el cual hacer el fuzzing.
 
-`-e .php,.html,.txt` Le especificamos que buscamos archivos con exteciones .php o .html o .txt
+`-e .php,.html,.txt` Le especificamos que buscamos archivos con extensiones .php o .html o .txt
 
 ![Usuario víctima](../../data/muy_facil/obsession/screenshots/09_find_username.png)
 
@@ -95,7 +95,7 @@ hydra -l russoski -P /usr/share/wordlists/rockyou.txt ssh://172.17.0.2 -t 10
 
 `-l russoski` -> Especificamos que el usuario es russoski.
 
-`-P /usr/share/wordlists/rockyou.txt` -> Definimos el dicionario con el que realizar el ataque de fuerza bruta.
+`-P /usr/share/wordlists/rockyou.txt` -> Definimos el diccionario con el que realizar el ataque de fuerza bruta.
 
 `ssh://172.17.0.2` -> El ataque se realizará contra el servicio SSH en la IP 172.17.0.2.
 
@@ -117,7 +117,7 @@ Nos apoyamos de la página [GTFOBins](https://gtfobins.github.io/), buscamos com
 
 ![Buscar código](../../data/muy_facil/obsession/screenshots/13_find_exploit_shell.png)
 
-Ejecutamos el código con permisos `sudo`, tambien podemos elegir entre una shell `sh` o una `bash` como lo hice en mi caso.
+Ejecutamos el código con permisos `sudo`, también podemos elegir entre una shell `sh` o una `bash` como lo hice en mi caso.
 
 ![root](../../data/muy_facil/obsession/screenshots/14_login_as_root.png)
 
