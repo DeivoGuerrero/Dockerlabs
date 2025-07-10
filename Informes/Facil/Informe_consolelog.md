@@ -1,15 +1,15 @@
 ### Informe de máquina *"CosoleLog"*
 
-![Máquina ConsoleLog](./screenshots/01_machine.png)
+![Máquina ConsoleLog](../../data/facil/consolelog/screenshots/01_machine.png)
 
 Vamos a realizar la maquina "CosoleLog", como siempre vamos a empezar asignando permisos de ejecución al archivo `auto_deploy.sh` eh inicializamos la maquina con `sudo ./autodeploy ` `consolelog.tar`
 
-![Permisos ejecución deploy](./screenshots/02_execution_perms_deploy.png)
-![Inicialización máquina](./screenshots/03_run_machine.png)
+![Permisos ejecución deploy](../../data/facil/consolelog/screenshots/02_execution_perms_deploy.png)
+![Inicialización máquina](../../data/facil/consolelog/screenshots/03_run_machine.png)
 
 Realizamos un testeo de conexión con el comando `ping`.
 
-![Test de conexión](./screenshots/04_ping.png)
+![Test de conexión](../../data/facil/consolelog/screenshots/04_ping.png)
 
 Y realizamos un escaneo de puertos abiertos con la herramienta `nmap`, el comando usado fue:
 
@@ -27,7 +27,7 @@ nmap -sS --min-rate 5000 -p- -vvv -Pn -n 172.17.0.2 -oG nmap
 - `172.17.0.2` → IP objetivo a escanear.
 - `-oG nmap` → Guarda los resultados en formato "greppable" en un archivo llamado nmap.
 
-![Escaneo nmap](./screenshots/05_nmap.png)
+![Escaneo nmap](../../data/facil/consolelog/screenshots/05_nmap.png)
 
 Encontramos los puertos `80`, `3000` y `5000` abiertos, procedemos a realizar un escaneo más detallada de estos.
 
@@ -47,55 +47,55 @@ nmap -p80,3000,5000 -sC -sV -O 172.17.0.2
 
 - `172.17.0.2` → Especifica la dirección IP del objetivo a escanear.
 
-![Detalle puertos 80, 3000 y 5000](./screenshots/06_details_ports_80_3000_5000.png)
+![Detalle puertos 80, 3000 y 5000](../../data/facil/consolelog/screenshots/06_details_ports_80_3000_5000.png)
 
 Continuamos a revisar que encontramos en la página web de inicio.
 
-![Página web](./screenshots/07_web_page.png)
+![Página web](../../data/facil/consolelog/screenshots/07_web_page.png)
 
 Encontramos una página con un botón que dice: "Boton en fase beta", revisemos el código fuente.
 
-![Código fuente](./screenshots/08_source_code_web_page.png)
+![Código fuente](../../data/facil/consolelog/screenshots/08_source_code_web_page.png)
 
 Observamos que hay un Script con dirección a `authentication.js`, revisemos el contenido del mismo.
 
-![Función authentication](./screenshots/09_func_autenticate.png)
+![Función authentication](../../data/facil/consolelog/screenshots/09_func_autenticate.png)
 
 En esta función encontramos un console.log que dice que el token del /recurso/ es `tokentraviesito`
 
-Se decide realizar un ataque de Fuzzing a servidor web en busqueda de otros archivos o directorios.
+Se decide realizar un ataque de Fuzzing a servidor web en búsqueda de otros archivos o directorios.
 
-![Fuzzing a servidor web](./screenshots/10_fuzzing_web_server.png)
+![Fuzzing a servidor web](../../data/facil/consolelog/screenshots/10_fuzzing_web_server.png)
 
 Encontramos un directorio llamado "backend".
 
-![Directorio backend](./screenshots/11_backend_directory.png)
+![Directorio backend](../../data/facil/consolelog/screenshots/11_backend_directory.png)
 
 Nos llama la atención el archivo server.js.
 Abriendo el contenido del mismo encontramos una función, que obteniendo el token identificado anteriormente retornará una página con el texto: `lapassworddebackupmaschingonadetodas`
 
-![Archivo server.js](./screenshots/12_server_js.png)
+![Archivo server.js](../../data/facil/consolelog/screenshots/12_server_js.png)
 
-Asumimos que es la contraseña de algun usuario, realizamos un ataque de fuerza bruta con la herramienta `hydra` seteando el puerto 5000
+Asumimos que es la contraseña de algún usuario, realizamos un ataque de fuerza bruta con la herramienta `hydra` seteando el puerto 5000
 
 ```bash
 hydra -L /usr/share/wordlists/john.lst -p "lapassworddebackupmaschingonadetodas" -s 5000 ssh://172.17.0.2 -t 10
 ```
 
-![Fuerza bruta usuario](./screenshots/13_find_user_lovely.png)
+![Fuerza bruta usuario](../../data/facil/consolelog/screenshots/13_find_user_lovely.png)
 
 Como resultado encontramos al usuario `lovely`, accedemos con el mismo y revisamos los permisos sudo de ejecución.
 
-![Logueo como usuario lovely](./screenshots/14_login_as_lovely.png)
+![Logueo como usuario lovely](../../data/facil/consolelog/screenshots/14_login_as_lovely.png)
 
 Encontramos que puede ejecutar con permisos `sudo` el comando `nano` procedemos a buscar como ejecutar una shell con este comando en [GTFOBins](https://gtfobins.github.io/)
 
-![Busqueda shell con nano](./screenshots/15_find_shell_nano.png)
+![Busqueda shell con nano](../../data/facil/consolelog/screenshots/15_find_shell_nano.png)
 
 1. Ejecutamos `sudo nano`
 2. Una vez en el editor presionamos `Ctrl + R`
 3. Luego presionamos `Ctrl + X`
-4. Nos pedira que ejecutemos un comando, escribimos `reset; sh 1>&0 2>&0` y damos Enter.
+4. Nos pedirá que ejecutemos un comando, escribimos `reset; sh 1>&0 2>&0` y damos Enter.
 5. Ejecutamos comando `whoami` para comprobar que somos usuarios `root`
 
-![Acceso como usuario root](./screenshots/16_login_as_root.png)
+![Acceso como usuario root](../../data/facil/consolelog/screenshots/16_login_as_root.png)

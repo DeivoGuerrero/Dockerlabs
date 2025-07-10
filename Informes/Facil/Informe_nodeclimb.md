@@ -1,15 +1,15 @@
 ### Informe de máquina *"NodeClib"*
 
-![Máquina NodeClimb](./screenshots/01_maquina.png)
+![Máquina NodeClimb](../../data/facil/nodeclimb/screenshots/01_maquina.png)
 
 Vamos a realizar la maquina "NodeClimb", como siempre vamos a empezar asignando permisos de ejecución al archivo `auto_deploy.sh` eh inicializamos la maquina con `sudo ./autodeploy ` `nodeclimb.tar`
 
-![Permisos ejecución deploy](./screenshots/02_permisos_deploy.png)
-![Inicialización máquina](./screenshots/03_inicio_maquina.png)
+![Permisos ejecución deploy](../../data/facil/nodeclimb/screenshots/02_permisos_deploy.png)
+![Inicialización máquina](../../data/facil/nodeclimb/screenshots/03_inicio_maquina.png)
 
 Realizamos un testeo de conexión con el comando `ping`.
 
-![Test de conexión](./screenshots/04_ping.png)
+![Test de conexión](../../data/facil/nodeclimb/screenshots/04_ping.png)
 
 Y realizamos un escaneo de puertos abiertos con la herramienta `nmap`, el comando usado fue:
 
@@ -27,7 +27,7 @@ nmap -sS --min-rate 5000 -p- -vvv -Pn -n 172.17.0.2 -oG nmap
 - `172.17.0.2` → IP objetivo a escanear.
 - `-oG nmap` → Guarda los resultados en formato "greppable" en un archivo llamado nmap.
 
-![Escaneo nmap](./screenshots/05_nmap.png)
+![Escaneo nmap](../../data/facil/nodeclimb/screenshots/05_nmap.png)
 
 Encontramos los puertos `21` y `22` abiertos, procedemos a realizar un escaneo más detallada de estos.
 
@@ -47,11 +47,11 @@ nmap -p21,22 -sC -sV -O 172.17.0.2
 
 - `172.17.0.2` → Especifica la dirección IP del objetivo a escanear.
 
-![Detalle puertos 21 y 22](./screenshots/06_detalle_puertos_21_22.png)
+![Detalle puertos 21 y 22](../../data/facil/nodeclimb/screenshots/06_detalle_puertos_21_22.png)
 
 Detectamos que el servicio FTP permite realizar un logueo como usuario Annonymous, intentamos conectarnos de esa forma:
 
-![Logueo FTP como annonymous](./screenshots/07_acceso_ftp.png)
+![Logueo FTP como annonymous](../../data/facil/nodeclimb/screenshots/07_acceso_ftp.png)
 
 Se pudo realizar la conexión, nos encontramos un archivo zip, procedemos a descargarlo:
 
@@ -59,7 +59,7 @@ Se pudo realizar la conexión, nos encontramos un archivo zip, procedemos a desc
 wget ftp://172.17.0.2/secretopicaron.zip --no-pasive-ftp
 ```
 
-![Descarga archivo zip](./screenshots/08_download_zip.png)
+![Descarga archivo zip](../../data/facil/nodeclimb/screenshots/08_download_zip.png)
 
 Al intentar descomprimir el archivo zip, vemos que nos solicita una contraseña, intentaremos buscar la  contraseña por fuerza bruta haciendo uso de la herramienta `john`
 
@@ -75,22 +75,22 @@ Ahora realizamos el ataque de fuerza bruta con el comando:
 john --worldlists=/usr/share/worldlists/rockyou.txt zip.hash
 ```
 
-![Password de zip](./screenshots/09_find_passwd_zip.png)
+![Password de zip](../../data/facil/nodeclimb/screenshots/09_find_passwd_zip.png)
 
-Identificamos que la contrasela del zip es "password1", procedemos a descomprimir el archivo con `unzip`, encontramos dentro un archivo llamado "password.txt" con el contenido `mario:laKontraseñAmasmalotaHdelbarrioH`
+Identificamos que la contraseña del zip es "password1", procedemos a descomprimir el archivo con `unzip`, encontramos dentro un archivo llamado "password.txt" con el contenido `mario:laKontraseñAmasmalotaHdelbarrioH`
 Asumimos que es la contraseña del usuario `mario`
 
-![Password Mario](./screenshots/10_password_mario.png)
+![Password Mario](../../data/facil/nodeclimb/screenshots/10_password_mario.png)
 
 Accedemos con el usuario `mario` y con `sudo 'l` vemos que permisos de ejecución sudo posee este usuario.
 
-![Login como Mario](./screenshots/11_loging_como_mario.png)
+![Login como Mario](../../data/facil/nodeclimb/screenshots/11_loging_como_mario.png)
 
-Observamos que el usuairo `mario` puede ejecutar el comando `node` con privilegios pero solo hacia el archivo `/home/mario/script.js`.
+Observamos que el usuairo `mario` puede ejecutar el comando `node` con privilegios, pero solo hacia el archivo `/home/mario/script.js`.
 
-![Permisos sudo de mario](./screenshots/12_permisos_sudo.png)
+![Permisos sudo de mario](../../data/facil/nodeclimb/screenshots/12_permisos_sudo.png)
 
-Investigamos un poco de como podemos ejecutar una shell con el comando node.
+Investigamos un poco de cómo podemos ejecutar una shell con el comando node.
 Con el comando `nano` editamos el archivo `script.js` de la siguiente forma
 
 ```
@@ -106,6 +106,6 @@ sudo /usr/bin/node /home/mario/script.js
 
 Y ejecutando el comando `whoami` podemos observar que ahora somos usuario `root`
 
-![Login como root](./screenshots/14_root.png)
+![Login como root](../../data/facil/nodeclimb/screenshots/14_root.png)
 
 
